@@ -1,0 +1,72 @@
+:root {
+  --for-dark-theme: grey;
+}
+.task {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  margin: 0.5rem 0rem;
+  border: 2px solid var(--for-dark-theme);
+  width: 100%;
+}
+.task-label {
+  cursor: pointer;
+  font-size: medium;
+  color: var(--for-dark-theme);
+  flex-grow: 1;
+}
+.task-delete-button {
+  cursor: pointer;
+  color: var(--for-dark-theme);
+  background: none;
+  border: 2px solid var(--for-dark-theme);
+}
+
+.input-and-button {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.task-input {
+  flex-grow: 1;
+  background: none;
+  color: var(--for-dark-theme);
+  border: 2px solid var(--for-dark-theme);
+  padding: 0.5rem;
+}
+.add-button {
+  padding: 0.5rem;
+  cursor: pointer;
+  background: none;
+  color: var(--for-dark-theme);
+  border: 2px solid var(--for-dark-theme);
+}
+.check-box {
+  background: none;
+  border: 2px solid var(--for-dark-theme);
+}
+.check-box:checked + .task-label {
+  text-decoration: line-through;
+}
+
+.message {
+  font-size: large;
+  color: gold;
+}
+.input-error {
+  animation: input-error 1s forwards;
+}
+
+@keyframes input-error {
+  0% {
+    transform: translateY(5px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}

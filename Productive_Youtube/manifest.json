@@ -1,0 +1,20 @@
+{
+  "name": "Productive youtube",
+  "version": "1.0",
+  "description": "It  asks what are your aims when you click on the video.  and then a todo list  appears below the title of the video, You can then further add your goals for a video",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "popup/popup.html"
+  },
+
+  "content_scripts": [
+    {
+      "js": ["scripts/content.js"],
+      "css": ["scripts/content.css"],
+      "matches": ["https://www.youtube.com/*"],
+      "run_at": "document_start"
+    }
+  ],
+  "permissions": ["activeTab", "tabs"],
+  "host_permissions": ["https://www.youtube.com/*"]
+}
