@@ -1,6 +1,6 @@
 function cleanUpUi() {
-  let extensionBody = document.querySelector(".extension-body");
-  extensionBody && extensionBody.remove();
+  let extensionBodies = document.querySelectorAll(".extension-body");
+  extensionBodies.forEach((body) => body.remove());
 }
 //Clean up immediately on load of script
 cleanUpUi();
@@ -34,18 +34,19 @@ document.addEventListener("yt-navigate-finish", async function () {
   function createTask(task, taskid) {
     const li = document.createElement("li");
     li.classList.add("task");
+    let listFragment = document.createDocumentFragment();
     //Making checkbox
     const checkBox = document.createElement("input");
     checkBox.classList.add("check-box");
     checkBox.id = `task-check-box-${taskid}`;
     checkBox.type = "checkbox";
-    li.prepend(checkBox);
+    listFragment.prepend(checkBox);
     //Making Label
     const label = document.createElement("label");
     label.setAttribute("for", `task-check-box-${taskid}`);
     label.classList.add("task-label");
     label.textContent = task;
-    li.append(label);
+    listFragment.append(label);
 
     //Making Delete Button
     const deleteButton = document.createElement("button");
@@ -55,8 +56,8 @@ document.addEventListener("yt-navigate-finish", async function () {
     deleteButton.addEventListener("click", () => {
       deleteTask(taskid);
     });
-
-    li.append(deleteButton);
+    listFragment.append(deleteButton);
+    li.append(listFragment);
     return li;
   }
   function mainFunction() {
@@ -181,7 +182,11 @@ document.addEventListener("yt-navigate-finish", async function () {
 
 document.addEventListener("yt-navigate-finish", () => {
   function PreviewDisabler() {
-    if (window.location.pathname !== "/") return;
+    if (
+      window.location.pathname !== "/" &&
+      window.location.pathname !== "/results"
+    )
+      return;
     //If video is cached
     let videoContainer = document.querySelector("#inline-preview-player");
 

@@ -12,7 +12,7 @@
       "js": ["scripts/content.js"],
       "css": ["scripts/content.css"],
       "matches": ["https://www.youtube.com/*"],
-      "run_at": "document_start"
+      "run_at": "document_idle"
     }
   ],
   "permissions": ["activeTab", "tabs"],

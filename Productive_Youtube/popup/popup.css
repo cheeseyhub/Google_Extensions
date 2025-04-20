@@ -1,0 +1,29 @@
+:root {
+  --for-theme: grey;
+}
+.extension_state_container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 200px;
+  justify-content: center;
+  align-items: center;
+}
+
+.click_message {
+  text-align: center;
+}
+.extension_state_button {
+  background-color: white;
+  font-size: larger;
+  font-weight: bolder;
+  cursor: pointer;
+  outline: 2px solid var(--for-theme);
+  padding: 0.5em;
+  border: none;
+  border-radius: 5px;
+  transition: transform 0.2s ease;
+}
+.extension_state_button:hover {
+  transform: rotateZ(5deg);
+}

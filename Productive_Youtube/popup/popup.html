@@ -3,10 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
-    <button id="button">Click Me.</button>
-    <script src="popup.js"></script>
+    <section class="extension_state_container">
+      <p class="click_message">
+        Click the button
+        <strong>exactly 30</strong>
+        times to disable the extension.
+      </p>
+      <p class="click_message">
+        Clicks
+        <strong>more than 30</strong>
+        will enable the extension.
+      </p>
+      <button class="extension_state_button">Disable</button>
+      <h3 class="click_number">Counter : 0</h3>
+
+      <h4 class="extension_state"></h4>
+    </section>
   </body>
+  <script src="popup.js"></script>
 </html>
