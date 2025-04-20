@@ -1,4 +1,14 @@
+function cleanUpUi() {
+  let extensionBody = document.querySelector(".extension-body");
+  extensionBody && extensionBody.remove();
+}
+//Clean up immediately on load of script
+cleanUpUi();
+
 document.addEventListener("yt-navigate-finish", async function () {
+  //Clean Up the UI again after navigation
+  cleanUpUi();
+
   function addingTask() {
     let taskInput = document.querySelector(".task-input");
     if (taskInput.value === "") {
@@ -128,7 +138,8 @@ document.addEventListener("yt-navigate-finish", async function () {
         extensionBody.prepend(message);
         message.classList.add("message");
         message.textContent =
-          "Add a task to start the video. (Focus with Backtick ` key)";
+          "Why do you want to watch this video? (Focus with Backtick ` key on taskInput area.)";
+
         disableVideo();
       }
     }
@@ -137,13 +148,8 @@ document.addEventListener("yt-navigate-finish", async function () {
       enableVideo();
     }
   }
-  //Deleting if the extension-body already exists
-  //It prevents multiple instances of the extension
-  const extensionBody = document.querySelector(".extension-body");
-  if (extensionBody) {
-    extensionBody.remove();
-  }
   function pageContentObserver() {
+    const contentBody = document.querySelector("#below");
     //Mutaion observer for the dom so that the extension works when the dom is fully loaded.
     const observer = new MutationObserver((mutations) => {
       const contentBody = document.querySelector("#below");
@@ -164,30 +170,48 @@ document.addEventListener("yt-navigate-finish", async function () {
         observer.disconnect();
       }
     });
-    observer.observe(document.body, { childList: true, subtree: true });
+    observer.observe(contentBody || document.body, {
+      childList: true,
+      subtree: true,
+    });
   }
 
   pageContentObserver();
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  function homePagePreviewDisabler() {
-    if (window.location.pathname === "/") {
-      let homePageObserver = new MutationObserver((mutations) => {
-        console.log("in the mutation home page");
-        const video = document.querySelector(
-          "#inline-preview-player > div.html5-video-container > video"
-        );
-        video.src = "";
-      });
+document.addEventListener("yt-navigate-finish", () => {
+  function PreviewDisabler() {
+    if (window.location.pathname !== "/") return;
+    //If video is cached
+    let videoContainer = document.querySelector("#inline-preview-player");
 
-      homePageObserver.observe(document.body, {
-        childList: true,
-        subtree: true,
-      });
-    }
+    let videoContainerObserver = new MutationObserver((mutations) => {
+      //Keeps on updating to new preview video
+      let video = document.querySelector(
+        "#inline-preview-player > div.html5-video-container > video"
+      );
+      //Just removes the video so it doesn't have to look at stuff over and over again.
+      if (video) video.remove();
+    });
+    //Observers Dom once then sets the videoContainer varable
+    let domObserver = new MutationObserver((mutations) => {
+      videoContainer = document.querySelector("#inline-preview-player");
+      if (videoContainer)
+        videoContainerObserver.observe(videoContainer, {
+          childList: true,
+          subtree: true,
+        });
+      videoContainer && domObserver.disconnect();
+    });
+
+    //Observe dom once then keep on observing videoContainer
+    domObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
   }
-  homePagePreviewDisabler();
+
+  PreviewDisabler();
 });
 
 //Easy way to focus
