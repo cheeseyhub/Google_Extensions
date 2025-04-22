@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (result.extensionState === "Disabled") {
       extension_state_button.textContent = "Enable";
+      extension_state_text.textContent = 'Extension is Disabled.';
       click_Counter = 0;
     }
   });
@@ -24,7 +25,9 @@ extension_state_button.addEventListener("click", () => {
   //Enables the extension and sets the click counter to 0 and enables the extension.
   click_number.textContent = `Counter : ${click_Counter}`;
   if (click_Counter === 1 && extension_state_button.textContent === "Enable") {
+    //Updating click counter ui
     click_Counter = 0;
+    click_number.textContent = `Counter : 0`;
     extension_state_button.textContent = "Disable";
     //On count start the extension state is enabled
     chrome.storage.local.set({ extensionState: "Enabled" });
