@@ -15,6 +15,6 @@
       "run_at": "document_idle"
     }
   ],
-  "permissions": ["activeTab", "tabs"],
+  "permissions": ["activeTab", "tabs", "storage"],
   "host_permissions": ["https://www.youtube.com/*"]
 }

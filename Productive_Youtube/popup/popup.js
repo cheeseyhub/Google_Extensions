@@ -1,28 +1,49 @@
 const extension_state_button = document.querySelector(
   ".extension_state_button"
 );
-const click_number = document.querySelector(".click_number");
-const extension_state = document.querySelector(".extension_state");
+//Button and state text
+let extension_state_text = document.querySelector(".extension_state_text");
 
-let click_Counter = 1;
+const click_number = document.querySelector(".click_number");
+let click_Counter = 0;
+document.addEventListener("DOMContentLoaded", () => {
+  chrome.storage.local.get(["extensionState"], (result) => {
+    if (!result.extensionState) {
+      chrome.storage.local.set({ extensionState: "Enabled" });
+      extension_state_button.textContent = "Disable";
+    }
+    if (result.extensionState === "Disabled") {
+      extension_state_button.textContent = "Enable";
+      click_Counter = 0;
+    }
+  });
+});
+
 extension_state_button.addEventListener("click", () => {
+  click_Counter++;
   //Enables the extension and sets the click counter to 0 and enables the extension.
   click_number.textContent = `Counter : ${click_Counter}`;
   if (click_Counter === 1 && extension_state_button.textContent === "Enable") {
     click_Counter = 0;
     extension_state_button.textContent = "Disable";
+    //On count start the extension state is enabled
+    chrome.storage.local.set({ extensionState: "Enabled" });
   }
-  //Checks if the clicks are equal or greater than 30 and then disables the extension.
-  if (extension_state_button.textContent === "Disable" && click_Counter >= 30) {
+  //Checks if the clicks are equal to 30 and then disables the extension.
+  if (
+    extension_state_button.textContent === "Disable" &&
+    click_Counter === 30
+  ) {
+    //Sets the counter sets it to zero 😊 at 30 clicks and sets the button text to enable. Setting the ui counter to 0
     click_Counter = 0;
+    click_number.textContent = `Counter : 0`;
     extension_state_button.textContent = "Enable";
+    //Setting the extension state to disabled
+    chrome.storage.local.set({ extensionState: "Disabled" });
   }
 
   //Message of extension state enabled or disabled.
-  if (extension_state_button.textContent === "Disable") {
-    extension_state.textContent = "Extension is Enabled.";
-  } else {
-    extension_state.textContent = "Extension is disabled.";
-  }
-  click_Counter++;
+  extension_state_button.textContent === "Disable"
+    ? (extension_state_text.textContent = "Extension is Enabled.")
+    : (extension_state_text.textContent = `Extension is Disabled. `);
 });

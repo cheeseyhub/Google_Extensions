@@ -8,11 +8,9 @@
   width: 200px;
   justify-content: center;
   align-items: center;
-}
-
-.click_message {
   text-align: center;
 }
+
 .extension_state_button {
   background-color: white;
   font-size: larger;
