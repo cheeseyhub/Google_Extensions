@@ -14,9 +14,25 @@
       </p>
 
       <button class="extension_state_button">Disable</button>
-      <h3 class="click_number">Counter : 0</h3>
+      <h2 class="click_number">Counter : 0</h2>
 
-      <h4 class="extension_state_text">Extension is Enabled.</h4>
+      <h3 class="extension_state_text">Extension is Enabled.</h3>
+    </section>
+
+    <hr />
+    <section class="features">
+      <h2>Modify features</h2>
+      <label for="number_of_tasks">
+        Number of tasks : &nbsp;
+        <input
+          type="number"
+          name="number_of_tasks"
+          id="number_of_tasks"
+          min="1"
+          max="5"
+          value="1"
+        />
+      </label>
     </section>
     <script src="popup.js"></script>
   </body>

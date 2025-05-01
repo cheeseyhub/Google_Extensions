@@ -1,9 +1,9 @@
 const extension_state_button = document.querySelector(
   ".extension_state_button"
 );
+const number_of_tasks = document.querySelector("#number_of_tasks");
 //Button and state text
 let extension_state_text = document.querySelector(".extension_state_text");
-
 const click_number = document.querySelector(".click_number");
 let click_Counter = 0;
 document.addEventListener("DOMContentLoaded", () => {
@@ -14,8 +14,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (result.extensionState === "Disabled") {
       extension_state_button.textContent = "Enable";
-      extension_state_text.textContent = 'Extension is Disabled.';
+      extension_state_text.textContent = "Extension is Disabled.";
       click_Counter = 0;
+    }
+  });
+  //If no tasks are set the default amount is 1
+  chrome.storage.local.get("number_of_tasks", (result) => {
+    if (!result.number_of_tasks) {
+      chrome.storage.local.set({ number_of_tasks: 1 });
+    } else {
+      number_of_tasks.value = result.number_of_tasks;
     }
   });
 });
@@ -49,4 +57,9 @@ extension_state_button.addEventListener("click", () => {
   extension_state_button.textContent === "Disable"
     ? (extension_state_text.textContent = "Extension is Enabled.")
     : (extension_state_text.textContent = `Extension is Disabled. `);
+});
+
+//Features modification
+number_of_tasks.addEventListener("change", (event) => {
+  chrome.storage.local.set({ number_of_tasks: event.target.value });
 });

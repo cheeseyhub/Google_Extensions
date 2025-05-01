@@ -1,10 +1,13 @@
 {
-  "name": "Productive youtube",
+  "name": "MindFul Youtube.",
   "version": "1.0",
-  "description": "It  asks what are your aims when you click on the video.  and then a todo list  appears below the title of the video, You can then further add your goals for a video",
+  "description": "It asks what is  your reason for watching the video. The video will not start until one reason is added. I have also made it annoying to disable it so that you 😊 do not waste time on youtube.",
   "manifest_version": 3,
   "action": {
     "default_popup": "popup/popup.html"
+  },
+  "icons": {
+    "128": "./g4.png"
   },
 
   "content_scripts": [
