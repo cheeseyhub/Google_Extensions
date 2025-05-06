@@ -29,3 +29,9 @@ body {
 .extension_state_button:hover {
   transform: rotateZ(5deg);
 }
+
+.home_page_feature {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

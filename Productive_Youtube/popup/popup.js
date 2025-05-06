@@ -6,6 +6,9 @@ const number_of_tasks = document.querySelector("#number_of_tasks");
 let extension_state_text = document.querySelector(".extension_state_text");
 const click_number = document.querySelector(".click_number");
 let click_Counter = 0;
+//Home page state
+let home_page_disabler = document.querySelector("#home_page_disabler");
+let home_page_status = document.querySelector(".home_page_status");
 document.addEventListener("DOMContentLoaded", () => {
   chrome.storage.local.get(["extensionState"], (result) => {
     if (!result.extensionState) {
@@ -24,6 +27,17 @@ document.addEventListener("DOMContentLoaded", () => {
       chrome.storage.local.set({ number_of_tasks: 1 });
     } else {
       number_of_tasks.value = result.number_of_tasks;
+    }
+  });
+  //Home page disabler
+  chrome.storage.local.get("home_page_redirect", (result) => {
+    if (!result.home_page_redirect) {
+      chrome.storage.local.set({ home_page_redirect: false });
+      home_page_disabler.checked = false;
+      home_page_status.textContent = "Home page is enabled.";
+    } else {
+      home_page_disabler.checked = true;
+      home_page_status.textContent = "You will be redirected to search page.";
     }
   });
 });
@@ -62,4 +76,12 @@ extension_state_button.addEventListener("click", () => {
 //Features modification
 number_of_tasks.addEventListener("change", (event) => {
   chrome.storage.local.set({ number_of_tasks: event.target.value });
+});
+home_page_disabler.addEventListener("change", (event) => {
+  chrome.storage.local.set({ home_page_redirect: event.target.checked });
+  if (event.target.checked) {
+    home_page_status.textContent = "You will be redirected to search page.";
+  } else {
+    home_page_status.textContent = "Home page is enabled.";
+  }
 });

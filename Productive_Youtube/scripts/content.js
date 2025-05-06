@@ -1,8 +1,10 @@
-chrome.storage.local.get(["extensionState"], (result) => {
-  chrome.storage.local.get(["number_of_tasks"], (result) => {
-    //Retreving extension state
+chrome.storage.local.get(
+  ["extensionState", "number_of_tasks", "home_page_redirect"],
+  (result) => {
+    //Reteriving storage features
     let extensionState = result.extensionState;
     let number_of_tasks = result.number_of_tasks;
+    let home_page_redirect = result.home_page_redirect;
 
     function cleanUpUi() {
       let extensionBodies = document.querySelectorAll(".extension-body");
@@ -196,6 +198,11 @@ chrome.storage.local.get(["extensionState"], (result) => {
 
     document.addEventListener("yt-navigate-finish", () => {
       if (extensionState === "Disabled") return;
+      //If redirect is enabled redirects to search page (no result page)
+      if (window.location.pathname === "/" && home_page_redirect === true) {
+        window.location.pathname = "/results";
+        return;
+      }
       function PreviewDisabler() {
         if (
           window.location.pathname !== "/" &&
@@ -204,13 +211,12 @@ chrome.storage.local.get(["extensionState"], (result) => {
           return;
         //If video is cached
         let videoContainer = document.querySelector("#inline-preview-player");
-
         let videoContainerObserver = new MutationObserver((mutations) => {
           //Keeps on updating to new preview video
           let video = document.querySelector(
             "#inline-preview-player > div.html5-video-container > video"
           );
-          //Just removes the video so it doesn't have to look at stuff over and over again.
+          //Just removes the video so it doesn't have to observe  video over and over again.
           if (video) video.remove();
         });
         //Observers Dom once then sets the videoContainer varable
@@ -233,5 +239,5 @@ chrome.storage.local.get(["extensionState"], (result) => {
 
       PreviewDisabler();
     });
-  });
-});
+  }
+);
