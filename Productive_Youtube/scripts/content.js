@@ -1,10 +1,11 @@
 chrome.storage.local.get(
-  ["extensionState", "number_of_tasks", "home_page_redirect"],
+  ["extensionState", "number_of_tasks", "home_page_redirect", "task_letters"],
   (result) => {
     //Reteriving storage features
     let extensionState = result.extensionState;
     let number_of_tasks = result.number_of_tasks;
     let home_page_redirect = result.home_page_redirect;
+    let task_letters = result.task_letters;
 
     function cleanUpUi() {
       let extensionBodies = document.querySelectorAll(".extension-body");
@@ -20,7 +21,7 @@ chrome.storage.local.get(
       if (window.location.pathname !== "/watch") return;
       function addingTask() {
         let taskInput = document.querySelector(".task-input");
-        if (taskInput.value === "") {
+        if (taskInput.value.length < task_letters) {
           taskInput.classList.add("input-error");
           setTimeout(() => {
             taskInput.classList.remove("input-error");
